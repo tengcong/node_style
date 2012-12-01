@@ -1,0 +1,58 @@
+<html>
+  <head>
+
+    <script src='http://code.jquery.com/jquery-1.8.3.min.js'></script>
+    <script src='socket.io/socket.io.js'></script>
+
+    <script type="text/javascript">
+      $(function(){
+        var socket = io.connect('http://localhost:3000');
+        var btn = $("#btn");
+        var showarea = $("#text")
+        var inputarea = $("#inputarea");
+
+        socket.on('origin', function(data){
+          showarea.text(data['text']);
+          btn.on("click", function(){
+            socket.emit('change', {text: inputarea.val()});
+          })
+        })
+
+        socket.on('new', function(data){
+          showarea.text(data['text']);
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <div class="main">
+      <div id="text"></div>
+      <input id="inputarea" type="" />
+      <input id='btn' value='send' type="button" />
+    </div>
+  </body>
+  <style type="text/css">
+    .main{
+      margin: 100;
+      padding: 50;
+      background: rgb(90%, 40%, 40%);
+    }
+    div#text{
+      background: rgb(30%, 80%, 40%);
+      color: rgb(30%, 40%, 80%);
+      font: cursive;
+      font-size: 40px;
+      width: 10em;
+      height: 100px;
+    }
+    input{
+      width: 400px;
+      height: 100px;
+    }
+    #btn{
+      width: 100px;
+      height: 100px;
+      margin-top: 30px;
+    }
+  </style>
+</html>
